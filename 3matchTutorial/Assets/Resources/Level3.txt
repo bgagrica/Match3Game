@@ -1,0 +1,1 @@
+{"goal":1,"criteria":23,"serialNumber":3,"spriteValue":3,"elementCount":40,"score":0,"oneStar":9500,"twoStar":11000,"threeStar":13000}
