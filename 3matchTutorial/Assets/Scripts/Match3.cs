@@ -571,7 +571,7 @@ public class Match3 : MonoBehaviour
             SaveSystem.Save(levelData);
         }
 
-        if (canMakeMatch() == false) shuffle();
+       // if (canMakeMatch() == false) shuffle();
 
         if (!isMatching)
         {
@@ -630,8 +630,8 @@ public class Match3 : MonoBehaviour
             else // If we made match
             {
                 
-                //if (wasFlipped)
-                // moves--;
+                if (wasFlipped)
+                 moves--;
 
                 bool check = false;
                 //Debug.Break();

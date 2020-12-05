@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class KilledPiece : MonoBehaviour
 {
     public bool falling;
-
+    
     float speed = 16f;
     float gravity = 32f;
     Vector2 moveDir;
