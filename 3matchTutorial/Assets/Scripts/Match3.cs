@@ -67,7 +67,6 @@ public class Match3 : MonoBehaviour
         startGame();
     }
 
-
     void startGame()
     {
 
@@ -441,21 +440,17 @@ public class Match3 : MonoBehaviour
 
     private void shuffle()
     {
-
         foreach (Transform child in gameBoard.transform)
         {
             GameObject.Destroy(child.gameObject);
         }
-        
+
         update.Clear();
         InitializeBoard();
         InitializeSelectionBoard();
         VerifyBoard();
         InstantiateBoard();
-
     }
-   
-
 
     void AddPoints(ref List<Point> points, List<Point> add)
     {
@@ -522,21 +517,15 @@ public class Match3 : MonoBehaviour
     void ifWonIsActive()
     {
 
-
+        int levelDataScore = levelData.score;
         int firstStar = levelData.oneStar;
         int secondStar = levelData.twoStar;
         int thirdStar = levelData.threeStar;
 
-        if (score < levelData.oneStar)
-            score = levelData.oneStar;
-       // if (moves > 0)
-       // {
-        //    moves--;
-        //    score += 300;
-       // }
+        if (score < firstStar)
+            score = firstStar;
 
-        if (levelData.score < score) ;
-        levelData.score = score;
+         levelData.setScore(score);
 
         if (score >= thirdStar)
             for (int i = 0; i < fullStars.Length; i++)
@@ -544,19 +533,20 @@ public class Match3 : MonoBehaviour
                 fullStars[i].gameObject.SetActive(true);
 
             }
-
+        else
         if (score >= secondStar)
         {
             for (int i = 0; i < fullStars.Length - 1; i++)
                 fullStars[i].gameObject.SetActive(true);
 
         }
+        else
         if (score >= firstStar)
             fullStars[0].gameObject.SetActive(true);
 
 
 
-
+        SaveSystem.Save(levelData);
 
     }
 
@@ -568,7 +558,7 @@ public class Match3 : MonoBehaviour
         if (PauseMenu.winCond == true)
         {
             ifWonIsActive();
-            SaveSystem.Save(levelData);
+            
         }
 
        // if (canMakeMatch() == false) shuffle();
@@ -610,12 +600,15 @@ public class Match3 : MonoBehaviour
             {   
                 flippedPiece = flip.getOtherPiece(piece);
                 AddPoints(ref connected, isConnected(flippedPiece.index, true));
-                if(flippedPiece.value == 6)
+                if(flippedPiece.value == 6 || piece.value == 6)
                 {
-                  
+                  if(flippedPiece.value == 6)
                     activateSuperElement(flippedPiece.index);
+                  else
+                        activateSuperElement(piece.index);
                     flipped.Remove(flip); // Remove the flip after update
                     update.Remove(piece);
+                    moves--;
                     break;
                 }
                 flippedPoint = flippedPiece.index;
@@ -703,30 +696,6 @@ public class Match3 : MonoBehaviour
                 }
                 
                     ApplyGravityToBoard();
-                
-              
-               
-                    /*flippedPoint
-                    if (getNodeAtPoint(flippedPoint1) != null)
-                    {
-                       
-
-                        NodePiece piece2;
-
-                        GameObject obj = Instantiate(nodePiece, gameBoard);
-                        NodePiece n = obj.GetComponent<NodePiece>();
-                        RectTransform rect = obj.GetComponent<RectTransform>();
-                        rect.anchoredPosition = getPositionFromPoint(flippedPoint1);
-                        piece2 = n;
-
-                    }*/
-
-
-
-
-
-                
-
 
                
             }
@@ -744,7 +713,11 @@ public class Match3 : MonoBehaviour
         Point[] directions =
        {
             new Point(0,0),
-           
+            new Point(1,-1),
+            new Point(1,1),
+            new Point(-1,-1),
+            new Point(-1,1),
+
             Point.up,
             Point.right,
             Point.down,
@@ -757,13 +730,16 @@ public class Match3 : MonoBehaviour
             Point pon = Point.add(point,dir);
             int x = pon.x;
             int y = pon.y;
-            if (x < 0 || x > height || y < 0 || y > width) continue;
+            if (x < 0 || x >= height || y < 0 || y >= width) continue;
             
-            //KillPiece(pon);
+            
             Node node = getNodeAtPoint(pon);
             NodePiece nodePiece = node.getPiece();
             if (nodePiece != null)
-            { 
+            {
+                KillPiece(pon);
+                dead.Add(nodePiece);
+                checkElement(pon);
                 nodePiece.gameObject.SetActive(false);
             }
             
@@ -799,8 +775,8 @@ public class Match3 : MonoBehaviour
             {
                 Point check = Point.add(point, Point.mult(dir, i));
 
-                
-                if (getValueAtPoint(check) == val)
+
+                if (getValueAtPoint(check) == val && val != 6 && val != 0)
                 {
                    // Debug.Log("Usao u metodu isSUperEllement proverio dir");
                     same1++;
@@ -820,9 +796,6 @@ public class Match3 : MonoBehaviour
 
         return false;
     }
-
-
-
 
     public void checkElement(Point pnt)
     {
@@ -1052,9 +1025,10 @@ public class Match3 : MonoBehaviour
                     NodePiece nodePiece = node.getPiece();
                     if(nodePiece != null)
                     {
-                        dead.Add(nodePiece);
-                        nodePiece.gameObject.SetActive(false);
-                        checkElement(point1);
+                    dead.Add(nodePiece);
+                    checkElement(point1);
+                    nodePiece.gameObject.SetActive(false);
+                        
                     }
                     score += 100; 
                     node.setPiece(null);

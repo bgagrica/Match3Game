@@ -54,6 +54,11 @@ public class LevelDataClass
 
         return sb.ToString();
     }
-   
+
+    public void setScore(int score1)
+    {
+        if(score1>score)
+        this.score = score1;
+    }
 
 }
