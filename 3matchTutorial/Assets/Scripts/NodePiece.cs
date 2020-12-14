@@ -11,7 +11,8 @@ public class NodePiece : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public int value;
     public Point index;
     public int superPiecePower;
-    bool updating; 
+    bool updating;
+    
 
     [HideInInspector]
     public Vector2 pos;
@@ -21,6 +22,14 @@ public class NodePiece : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     Image img;
     public static Point ptn;
+    public Animator anim;
+
+    void Start()
+    {
+        anim = gameObject.GetComponent<Animator>();
+        //anim.transform.position = this.transform.position;
+      // anim["kill"].layer = 1;
+    }
 
     public void Initialize(int v, Point p, Sprite piece, int super)
     {
@@ -33,7 +42,7 @@ public class NodePiece : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         img.sprite = piece;
         superPiecePower = super != 0 ? super : 0 ;
     }
-   
+    
     public void SetIndex(Point p)
     {
         index = p;
@@ -104,5 +113,15 @@ public class NodePiece : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         return ptn;
     }
 
-    
+    public void playAnimation()
+    {
+        anim.SetBool("IsReady", true);
+        //endAnimation();
+    }
+    public void endAnimation()
+    {
+       // anim.SetBool("IsReady", false);
+    }
+
+
 }

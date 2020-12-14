@@ -90,7 +90,7 @@ public class Match3 : MonoBehaviour
         setLevel();
         UpdateText();
 
-        levelText.text = "Level: " + levelData.serialNumber.ToString();
+       
 
     }
 
@@ -655,10 +655,12 @@ public class Match3 : MonoBehaviour
                     if (nodePiece != null)
                     {
 
-                      
+                        //nodePiece.playAnimation();
+                       
                         //dead.Add(nodePiece);
                         nodePiece.gameObject.SetActive(false);
                             checkElement(pnt);
+                            
                             node.setPiece(null);
    
 
