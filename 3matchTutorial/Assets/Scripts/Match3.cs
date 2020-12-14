@@ -19,7 +19,9 @@ public class Match3 : MonoBehaviour
     public Button confirmButton;
     public Button cancelButton;
     public int typeOFLevel; // 1 = score and moves ; 2 = score and time  ; 3 = item and moves  ; 4 = item and time  --- score exist in all levels
-
+    public Text textHummer;
+    public Text textMagic;
+    public Text textCross;
 
 
 
@@ -807,7 +809,9 @@ public class Match3 : MonoBehaviour
 
     void UpdateText()
     {
-        
+        textMagic.text = PlayerStats.PUMagic.ToString();
+        textCross.text = PlayerStats.PURowCross.ToString();
+        textHummer.text = PlayerStats.PUHammer.ToString();
         PauseMenu.moves = moves;
         PauseMenu.targetPieceCount = targetCount;
         targetPieceCountText.text = targetCount.ToString() + "/" + levelData.elementCount.ToString() ;
@@ -959,18 +963,24 @@ public class Match3 : MonoBehaviour
     
     public void OnButtonHammerClick()
     {
+        if (PlayerStats.PUHammer <= 0)
+            return;
         typeOfPowerUp = 1;
         activatePowerUp();
     }
 
     public void OnButtonDestroyAllTypeOfElement()
     {
+        if (PlayerStats.PUMagic <= 0)
+            return;
         typeOfPowerUp = 2;
         activatePowerUp();
     }
 
     public void OnButtonDestroyRowAndColPowerUp()
     {
+        if (PlayerStats.PURowCross <= 0)
+            return;
         typeOfPowerUp = 3;
         activatePowerUp();
     }
@@ -979,20 +989,26 @@ public class Match3 : MonoBehaviour
     {
         if(typeOfPowerUp == 1)
         {
+            PlayerStats.decrementPUHammer();
             hammerPowerUp();
         }
         
         if(typeOfPowerUp == 2)
         {
+            PlayerStats.decrementPUMagic();
             DestroyAllTypeOfElementPowerUp();
         }
 
         if(typeOfPowerUp == 3)
         {
+            PlayerStats.decrementPURowCross();
                destroyRowAndColPowerUp();
         }
-    
-        if(typeOfPowerUp != 0)endPowerUp();
+
+        UpdateText();
+
+        if (typeOfPowerUp != 0)endPowerUp();
+
     }
 
     public void hammerPowerUp()
