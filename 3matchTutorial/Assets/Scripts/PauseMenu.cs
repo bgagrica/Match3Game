@@ -19,6 +19,7 @@ public class PauseMenu : MonoBehaviour
     public static int winCondInt;
     public static int moves;
     public static bool finished;
+    public bool goldPLus = false;
     //  public  Match3 game;
  
  
@@ -78,8 +79,9 @@ public class PauseMenu : MonoBehaviour
     }
 
     public void loadNextLevel()
-    {    
-        if(SaveSystem.serialNumber < 5)
+    {
+        goldPLus = false;
+        if (SaveSystem.serialNumber < 5)
         {
         SaveSystem.serialNumber = SaveSystem.serialNumber + 1;
         SceneManager.LoadScene(1);
@@ -109,6 +111,7 @@ public class PauseMenu : MonoBehaviour
 
     public void menu()
     {
+        goldPLus = false;
         SceneManager.LoadScene(0);
     }
 
@@ -131,6 +134,12 @@ public class PauseMenu : MonoBehaviour
         wonMenuUI.SetActive(true);
         Time.timeScale = 0f;
         gameIsPaused = true;
+        if (!goldPLus)
+        {
+            PlayerStats.incrementGold();
+            goldPLus = true;
+        }
+        
     }
 
 

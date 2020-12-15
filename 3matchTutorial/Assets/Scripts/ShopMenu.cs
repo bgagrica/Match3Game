@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ShopMenu: MonoBehaviour
 {
@@ -10,7 +11,18 @@ public class ShopMenu: MonoBehaviour
     public static int priceMagic = 500;
     public static int priceLives = 250;
     public static int priceGold = 100;
+    public Text countHamer;
+    public Text countCross;
+    public Text countMagic;
+    public Text countGold;
 
+    public void Update()
+    {
+        countHamer.text = PlayerStats.PUHammer.ToString();
+        countCross.text = PlayerStats.PURowCross.ToString();
+        countMagic.text = PlayerStats.PUMagic.ToString();
+        countGold.text = PlayerStats.gold.ToString();
+    }
 
     public void buyHammer()
     {

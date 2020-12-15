@@ -8,7 +8,7 @@ public static class PlayerStats
     public static int PURowCross =5;
     public static int PUMagic =6;
     public static int lives;
-    public static int gold = 10000,silver;
+    public static int gold = 10001,silver;
 
 
 
@@ -50,6 +50,10 @@ public static class PlayerStats
     public static void icncrementLives()
     {
         ++lives;
+    }
+    public static void incrementGold()
+    {
+        gold += 200;
     }
 
 

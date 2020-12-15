@@ -30,6 +30,10 @@ public class MainMenu : MonoBehaviour
          SceneManager.LoadScene(0);
         
     }
+    public void loadShopScene()
+    {
+        SceneManager.LoadScene(3);
+    }
 
      public void exitGame()
      {
